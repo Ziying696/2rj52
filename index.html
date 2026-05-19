@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给班主任的祝福</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffd6e6 0%, #ffe4e1 30%, #d4e6f1 70%, #c8e6f5 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cloud {
+            position: absolute;
+            border-radius: 50%;
+            animation: floatCloud 8s ease-in-out infinite;
+        }
+
+        .cloud-white {
+            background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+            box-shadow: 
+                0 6px 20px rgba(0, 0, 0, 0.08),
+                inset 0 -8px 20px rgba(0, 0, 0, 0.03),
+                inset 0 8px 20px rgba(255, 255, 255, 0.9);
+        }
+
+        .cloud-pink {
+            background: linear-gradient(180deg, #ffdde1 0%, #ffc2d1 100%);
+            box-shadow: 
+                0 6px 20px rgba(255, 182, 193, 0.3),
+                inset 0 -8px 20px rgba(255, 150, 170, 0.1),
+                inset 0 8px 20px rgba(255, 255, 255, 0.6);
+        }
+
+        .cloud-blue {
+            background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+            box-shadow: 
+                0 6px 20px rgba(186, 230, 253, 0.4),
+                inset 0 -8px 20px rgba(150, 200, 255, 0.1),
+                inset 0 8px 20px rgba(255, 255, 255, 0.7);
+        }
+
+        .star {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 26px solid #ffd93d;
+            animation: twinkle 2.5s ease-in-out infinite;
+        }
+
+        .star::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-top: 26px solid #ffd93d;
+            top: 8px;
+            left: -14px;
+        }
+
+        .star-blue {
+            border-bottom-color: #60a5fa;
+        }
+
+        .star-blue::after {
+            border-top-color: #60a5fa;
+        }
+
+        @keyframes floatCloud {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(15px); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+
+        .container {
+            text-align: center;
+            padding: 50px 80px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .blessing {
+            font-family: 'Ma Shan Zheng', cursive, sans-serif;
+            font-size: clamp(36px, 9vw, 68px);
+            font-weight: bold;
+            line-height: 1.15;
+            white-space: pre-line;
+            animation: fadeInUp 1s ease-out;
+            letter-spacing: 1px;
+            color: #f5e6d3;
+            text-shadow: 
+                0 0 0 #e74c3c,
+                1px 0 0 #e74c3c,
+                2px 0 0 #e74c3c,
+                3px 0 0 #e74c3c,
+                0 1px 0 #e74c3c,
+                1px 1px 0 #e74c3c,
+                2px 1px 0 #e74c3c,
+                3px 1px 0 #e74c3c,
+                0 2px 0 #e74c3c,
+                1px 2px 0 #e74c3c,
+                2px 2px 0 #e74c3c,
+                3px 2px 0 #e74c3c,
+                0 3px 0 #e74c3c,
+                1px 3px 0 #e74c3c,
+                2px 3px 0 #e74c3c,
+                3px 3px 0 #e74c3c;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .corner-text {
+            position: absolute;
+            font-size: 11px;
+            color: rgba(100, 100, 100, 0.35);
+            font-family: Arial, sans-serif;
+            letter-spacing: 1.5px;
+        }
+
+        .corner-text.top-left {
+            top: 25px;
+            left: 25px;
+        }
+
+        .corner-text.top-center {
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .corner-text.top-right {
+            top: 25px;
+            right: 25px;
+        }
+
+        .corner-text.bottom-left {
+            bottom: 25px;
+            left: 25px;
+        }
+
+        .corner-text.bottom-right {
+            bottom: 25px;
+            right: 25px;
+        }
+
+        .small-dot {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #ffd93d;
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 35px 25px;
+            }
+
+            .blessing {
+                font-size: clamp(24px, 6vw, 38px);
+                line-height: 1.35;
+                letter-spacing: 2px;
+                text-shadow: 
+                    0 0 0 #e74c3c,
+                    1px 0 0 #e74c3c,
+                    2px 0 0 #e74c3c,
+                    0 1px 0 #e74c3c,
+                    1px 1px 0 #e74c3c,
+                    2px 1px 0 #e74c3c,
+                    0 2px 0 #e74c3c,
+                    1px 2px 0 #e74c3c,
+                    2px 2px 0 #e74c3c;
+            }
+
+            .corner-text {
+                font-size: 9px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="corner-text bottom-left">UE MV CFMIEST 70020</div>
+    <div class="corner-text bottom-right">毕业送给老师的礼物</div>
+
+    <div class="cloud cloud-white" style="width: 100px; height: 45px; top: 12%; left: 8%; animation-delay: 0s;">
+        <div class="cloud cloud-white" style="width: 45px; height: 45px; top: -22px; left: 12px;"></div>
+        <div class="cloud cloud-white" style="width: 55px; height: 55px; top: -28px; left: 38px;"></div>
+        <div class="cloud cloud-white" style="width: 35px; height: 35px; top: -15px; left: 70px;"></div>
+    </div>
+
+    <div class="cloud cloud-pink" style="width: 85px; height: 38px; top: 70%; right: 12%; animation-delay: 1.8s;">
+        <div class="cloud cloud-pink" style="width: 38px; height: 38px; top: -18px; left: 10px;"></div>
+        <div class="cloud cloud-pink" style="width: 48px; height: 48px; top: -24px; left: 30px;"></div>
+    </div>
+
+    <div class="cloud cloud-blue" style="width: 70px; height: 30px; bottom: 18%; left: 15%; animation-delay: 3s;">
+        <div class="cloud cloud-blue" style="width: 30px; height: 30px; top: -15px; left: 8px;"></div>
+        <div class="cloud cloud-blue" style="width: 40px; height: 40px; top: -20px; left: 25px;"></div>
+    </div>
+
+    <div class="cloud cloud-white" style="width: 55px; height: 25px; top: 28%; right: 18%; animation-delay: 1s;">
+        <div class="cloud cloud-white" style="width: 25px; height: 25px; top: -12px; left: 6px;"></div>
+        <div class="cloud cloud-white" style="width: 32px; height: 32px; top: -16px; left: 20px;"></div>
+    </div>
+
+    <div class="star" style="top: 15%; left: 20%; animation-delay: 0s;"></div>
+    <div class="star star-blue" style="top: 13%; left: 22%; animation-delay: 0.4s;"></div>
+    <div class="star" style="top: 68%; right: 15%; animation-delay: 0.7s;"></div>
+    <div class="star" style="bottom: 20%; left: 10%; animation-delay: 1s;"></div>
+    <div class="star" style="top: 65%; right: 32%; animation-delay: 1.4s;"></div>
+    <div class="star" style="bottom: 22%; right: 42%; animation-delay: 1.8s;"></div>
+
+    <div class="small-dot" style="top: 62%; left: 13%; animation-delay: 0.3s;"></div>
+
+    <div class="container">
+        <div class="blessing">
+            财经22软件52全班同学祝班主任往后岁岁无忧、万事顺意，工作顺遂、<p></p>生活美满！
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <a href="classmates.html" style="display: inline-block; padding: 12px 30px; background: rgba(255,255,255,0.9); color: #e74c3c; text-decoration: none; border-radius: 30px; font-size: 18px; font-family: 'Ma Shan Zheng', cursive; box-shadow: 0 5px 20px rgba(0,0,0,0.2); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 5px 20px rgba(0,0,0,0.2)'">👥 查看全班同学名单</a>
+        </div>
+    </div>
+</body>
+</html>
