@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>记忆画廊 - 全部照片</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Ma Shan Zheng', cursive, sans-serif;
+            padding: 30px;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .gallery-title {
+            font-size: clamp(28px, 6vw, 48px);
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 100, 150, 0.8);
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+        }
+
+        .gallery-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 4px;
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-bottom: 150px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(255, 100, 150, 0.3);
+            z-index: 10;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+            z-index: 2;
+        }
+
+        .gallery-item:hover::before {
+            left: 100%;
+        }
+
+        .gallery-item:nth-child(1) { grid-row: span 2; grid-column: span 2; }
+        .gallery-item:nth-child(2) { grid-row: span 1; grid-column: span 1; }
+        .gallery-item:nth-child(3) { grid-row: span 2; grid-column: span 1; }
+        .gallery-item:nth-child(4) { grid-row: span 1; grid-column: span 2; }
+        .gallery-item:nth-child(5) { grid-row: span 1; grid-column: span 1; }
+        .gallery-item:nth-child(6) { grid-row: span 2; grid-column: span 1; }
+        .gallery-item:nth-child(7) { grid-row: span 1; grid-column: span 1; }
+        .gallery-item:nth-child(8) { grid-row: span 1; grid-column: span 2; }
+        .gallery-item:nth-child(9) { grid-row: span 2; grid-column: span 1; }
+        .gallery-item:nth-child(10) { grid-row: span 1; grid-column: span 1; }
+        .gallery-item:nth-child(11) { grid-row: span 1; grid-column: span 1; }
+        .gallery-item:nth-child(12) { grid-row: span 2; grid-column: span 2; }
+        .gallery-item:nth-child(13) { grid-row: span 1; grid-column: span 1; }
+        .gallery-item:nth-child(14) { grid-row: span 2; grid-column: span 1; }
+        .gallery-item:nth-child(15) { grid-row: span 1; grid-column: span 1; }
+        .gallery-item:nth-child(16) { grid-row: span 1; grid-column: span 2; }
+        .gallery-item:nth-child(17) { grid-row: span 1; grid-column: span 1; }
+        .gallery-item:nth-child(18) { grid-row: span 2; grid-column: span 1; }
+        .gallery-item:nth-child(19) { grid-row: span 1; grid-column: span 1; }
+        .gallery-item:nth-child(20) { grid-row: span 1; grid-column: span 2; }
+
+        .gallery-item:nth-child(1) img { aspect-ratio: 16/10; }
+        .gallery-item:nth-child(2) img { aspect-ratio: 3/4; }
+        .gallery-item:nth-child(3) img { aspect-ratio: 2/3; }
+        .gallery-item:nth-child(4) img { aspect-ratio: 16/9; }
+        .gallery-item:nth-child(5) img { aspect-ratio: 1/1; }
+        .gallery-item:nth-child(6) img { aspect-ratio: 2/3; }
+        .gallery-item:nth-child(7) img { aspect-ratio: 4/3; }
+        .gallery-item:nth-child(8) img { aspect-ratio: 16/10; }
+        .gallery-item:nth-child(9) img { aspect-ratio: 2/3; }
+        .gallery-item:nth-child(10) img { aspect-ratio: 3/4; }
+        .gallery-item:nth-child(11) img { aspect-ratio: 1/1; }
+        .gallery-item:nth-child(12) img { aspect-ratio: 16/10; }
+        .gallery-item:nth-child(13) img { aspect-ratio: 4/3; }
+        .gallery-item:nth-child(14) img { aspect-ratio: 2/3; }
+        .gallery-item:nth-child(15) img { aspect-ratio: 3/4; }
+        .gallery-item:nth-child(16) img { aspect-ratio: 16/9; }
+        .gallery-item:nth-child(17) img { aspect-ratio: 1/1; }
+        .gallery-item:nth-child(18) img { aspect-ratio: 2/3; }
+        .gallery-item:nth-child(19) img { aspect-ratio: 4/3; }
+        .gallery-item:nth-child(20) img { aspect-ratio: 16/10; }
+
+        .zoom-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .zoom-overlay.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .zoom-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 16px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(255, 100, 150, 0.3);
+            animation: zoomIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .zoom-info {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            letter-spacing: 2px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .music-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 500;
+            font-size: 24px;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-links {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 60;
+        }
+
+        .nav-link {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, rgba(255, 100, 150, 0.2), rgba(100, 100, 255, 0.2));
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, rgba(255, 100, 150, 0.4), rgba(100, 100, 255, 0.4));
+            border-color: rgba(255, 100, 150, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 100, 150, 0.3);
+        }
+
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 100, 150, 0.6);
+            border-radius: 50%;
+            animation: float 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            .gallery-container {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 12px;
+            }
+
+            .gallery-title {
+                font-size: clamp(22px, 8vw, 36px);
+                letter-spacing: 4px;
+            }
+
+            .gallery-item:nth-child(1) { grid-row: span 2; grid-column: span 2; }
+            .gallery-item:nth-child(4) { grid-row: span 1; grid-column: span 2; }
+            .gallery-item:nth-child(8) { grid-row: span 1; grid-column: span 2; }
+            .gallery-item:nth-child(12) { grid-row: span 2; grid-column: span 2; }
+            .gallery-item:nth-child(16) { grid-row: span 1; grid-column: span 2; }
+            .gallery-item:nth-child(20) { grid-row: span 1; grid-column: span 2; }
+
+            .music-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-link {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="gallery-header">
+        <h1 class="gallery-title">🎬 记忆画廊</h1>
+        <p class="gallery-subtitle">共 20 张照片</p>
+    </div>
+
+    <div class="gallery-container" id="galleryContainer"></div>
+
+    <div class="nav-links">
+        <a href="index.html" class="nav-link">🏠 返回首页</a>
+        <a href="classmates.html" class="nav-link">👥 同学名单</a>
+    </div>
+
+    <audio id="bgm" src="./音乐.MP3" loop preload="auto">
+    
+    <button class="music-btn" id="musicBtn">🔊</button>
+    <div id="musicTip" style="display: none; position: fixed; bottom: 100px; left: 30px; background: rgba(0,0,0,0.7); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 14px; backdrop-filter: blur(10px); z-index: 100;">点击播放音乐</div>
+
+    <div class="zoom-overlay" id="zoomOverlay">
+        <img src="" alt="放大图片" class="zoom-image" id="zoomImage">
+        <div class="zoom-info" id="zoomInfo"></div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('bgm');
+        const musicBtn = document.getElementById('musicBtn');
+        const musicTip = document.getElementById('musicTip');
+        
+        audio.volume = 0.3;
+        
+        async function playMusic() {
+            try {
+                await audio.play();
+                musicBtn.textContent = '🔊';
+                musicTip.style.display = 'none';
+            } catch (e) {
+                musicBtn.textContent = '🔇';
+                musicBtn.style.border = '2px solid #e74c3c';
+                musicTip.style.display = 'block';
+            }
+        }
+        
+        audio.addEventListener('error', () => {
+            musicBtn.textContent = '⚠️';
+            musicTip.textContent = '无法加载音乐文件';
+            musicTip.style.display = 'block';
+        });
+        
+        audio.addEventListener('canplay', () => {
+            playMusic();
+        });
+        
+        audio.addEventListener('loadedmetadata', () => {
+            playMusic();
+        });
+        
+        setTimeout(() => {
+            if (audio.readyState < 2) {
+                musicBtn.textContent = '⚠️';
+                musicTip.textContent = '音乐加载中...';
+                musicTip.style.display = 'block';
+            }
+        }, 3000);
+        
+        document.addEventListener('click', () => {
+            if (audio.paused && audio.readyState >= 2) {
+                audio.play();
+                musicBtn.textContent = '🔊';
+                musicBtn.style.border = 'none';
+                musicTip.style.display = 'none';
+            }
+        }, { once: true });
+        
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.readyState < 2) {
+                musicTip.textContent = '音乐加载中，请稍候...';
+                musicTip.style.display = 'block';
+                return;
+            }
+            if (audio.paused) {
+                audio.play();
+                musicBtn.textContent = '🔊';
+                musicBtn.style.border = 'none';
+                musicTip.style.display = 'none';
+            } else {
+                audio.pause();
+                musicBtn.textContent = '🔇';
+            }
+        });
+
+        const images = [
+            { src: 'zhaopaian/1.jpg', caption: '照片 01' },
+            { src: 'zhaopaian/2.jpg', caption: '照片 02' },
+            { src: 'zhaopaian/3.jpg', caption: '照片 03' },
+            { src: 'zhaopaian/4.jpg', caption: '照片 04' },
+            { src: 'zhaopaian/5.jpg', caption: '照片 05' },
+            { src: 'zhaopaian/6.jpg', caption: '照片 06' },
+            { src: 'zhaopaian/7.jpg', caption: '照片 07' },
+            { src: 'zhaopaian/8.jpg', caption: '照片 08' },
+            { src: 'zhaopaian/10.jpg', caption: '照片 09' },
+            { src: 'zhaopaian/11.jpg', caption: '照片 10' },
+            { src: 'zhaopaian/12.jpg', caption: '照片 11' },
+            { src: 'zhaopaian/13.jpg', caption: '照片 12' },
+            { src: 'zhaopaian/15.jpg', caption: '照片 13' },
+            { src: 'zhaopaian/16.jpg', caption: '照片 14' },
+            { src: 'zhaopaian/17.jpg', caption: '照片 15' },
+            { src: 'zhaopaian/18.jpg', caption: '照片 16' },
+            { src: 'zhaopaian/19.jpg', caption: '照片 17' },
+            { src: 'zhaopaian/20.jpg', caption: '照片 18' },
+            { src: 'zhaopaian/21.jpg', caption: '照片 19' },
+            { src: 'zhaopaian/22.jpg', caption: '照片 20' }
+        ];
+
+        const galleryContainer = document.getElementById('galleryContainer');
+        const zoomOverlay = document.getElementById('zoomOverlay');
+        const zoomImage = document.getElementById('zoomImage');
+        const zoomInfo = document.getElementById('zoomInfo');
+        const audio = document.getElementById('bgm');
+        const musicBtn = document.getElementById('musicBtn');
+
+        images.forEach((img, index) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            
+            const image = document.createElement('img');
+            image.src = img.src;
+            image.alt = img.caption;
+            
+            item.appendChild(image);
+            
+            item.addEventListener('click', () => {
+                zoomImage.src = img.src;
+                zoomInfo.textContent = img.caption;
+                zoomOverlay.classList.add('show');
+            });
+            
+            galleryContainer.appendChild(item);
+        });
+
+        zoomOverlay.addEventListener('click', () => {
+            zoomOverlay.classList.remove('show');
+        });
+
+        for (let i = 0; i < 15; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (12 + Math.random() * 10) + 's';
+            document.body.appendChild(particle);
+        }
+
+        audio.volume = 0.3;
+        
+        musicBtn.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            musicBtn.textContent = audio.muted ? '🔇' : '🔊';
+        });
+    </script>
+</body>
+</html>
