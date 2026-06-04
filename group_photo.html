@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级合照</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            font-family: 'Ma Shan Zheng', cursive, sans-serif;
+            padding: 30px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .title {
+            font-size: clamp(32px, 7vw, 56px);
+            color: #fff;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+            letter-spacing: 10px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: clamp(14px, 3vw, 20px);
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 3px;
+        }
+
+        .photo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding-bottom: 140px;
+        }
+
+        .photo-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .photo-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .photo-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-caption {
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .photo-caption h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .photo-caption p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .nav-links {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 500;
+        }
+
+        .nav-link {
+            padding: 14px 35px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 35px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            letter-spacing: 2px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .music-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: #fff;
+            font-size: 26px;
+            cursor: pointer;
+            z-index: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .zoom-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+
+        .zoom-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .zoom-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 15px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            animation: zoomIn 0.4s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .photo-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-link {
+                padding: 12px 25px;
+                font-size: 16px;
+                text-align: center;
+            }
+
+            .music-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">📸 班级合照</h1>
+        <p class="subtitle">定格美好瞬间 · 珍藏青春记忆</p>
+    </div>
+
+    <div class="photo-container">
+        <div class="photo-card" onclick="zoomImage(this)">
+            <img src="https://i.ibb.co/RG32YLLG/116.jpg" alt="班级合照1">
+            <div class="photo-caption">
+                <h3>温馨时刻</h3>
+                <p>记录我们在一起的美好时光</p>
+            </div>
+        </div>
+
+        <div class="photo-card" onclick="zoomImage(this)">
+            <img src="https://i.ibb.co/gFcr1VJB/114.jpg" alt="班级合照2">
+            <div class="photo-caption">
+                <h3>青春记忆</h3>
+                <p>那些年我们一起走过的日子</p>
+            </div>
+        </div>
+
+        <div class="photo-card" onclick="zoomImage(this)">
+            <img src="https://i.ibb.co/V05Y80Qt/115.jpg" alt="班级合照3">
+            <div class="photo-caption">
+                <h3>师生情谊</h3>
+                <p>感谢老师的辛勤付出与陪伴</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html" class="nav-link">🏠 返回首页</a>
+        <a href="classmates.html" class="nav-link">👥 同学名单</a>
+        <a href="gallery.html" class="nav-link">📷 班级相册</a>
+    </div>
+
+    <button class="music-btn" id="musicBtn">🔊</button>
+
+    <div class="zoom-overlay" id="zoomOverlay">
+        <img src="" alt="放大图片" class="zoom-image" id="zoomImage">
+    </div>
+
+    <audio id="bgm" src="./音乐.MP3" loop preload="auto"></audio>
+
+    <script>
+        const zoomOverlay = document.getElementById('zoomOverlay');
+        const zoomImage = document.getElementById('zoomImage');
+        const audio = document.getElementById('bgm');
+        const musicBtn = document.getElementById('musicBtn');
+
+        function zoomImage(card) {
+            const img = card.querySelector('img');
+            zoomImage.src = img.src;
+            zoomOverlay.classList.add('show');
+        }
+
+        zoomOverlay.onclick = function() {
+            zoomOverlay.classList.remove('show');
+        };
+
+        audio.volume = 0.3;
+        
+        document.addEventListener('click', function() {
+            if (audio.paused && audio.readyState >= 2) {
+                audio.play();
+            }
+        }, { once: true });
+
+        musicBtn.onclick = function(e) {
+            e.stopPropagation();
+            if (audio.paused) {
+                audio.play();
+                this.textContent = '🔊';
+            } else {
+                audio.pause();
+                this.textContent = '🔇';
+            }
+        };
+
+        audio.addEventListener('error', () => {
+            musicBtn.textContent = '⚠️';
+        });
+    </script>
+</body>
+</html>
